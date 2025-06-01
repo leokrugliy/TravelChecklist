@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css" integrity="sha512-q6WgHqiHlKyOqslT/lgBgodhd03Wp4BEqKeW6nNtlOY4quzyG3VoQKFrieaCeSnuVseNKRGpGeDU3qPmabCANg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/styles.css">
-    <script src="main.js"></script>
 </head>
 <body>
     <header class="header">
@@ -24,71 +23,33 @@
     <main>
         <h1 class="trip-title">Packing list for a trip</h1>
         <label for="tripTravel">Select the type of travel: </label>
-        <select id="tripType">
-            <option value="" disabled selected>Select type: </option>
-            <option value="plane">Plane</option>
-            <option value="train">Train</option>
-            <option value="hiking">Hiking</option>
-            <option value="car">Car</option>
-        </select>
-
-        <button id="generateBtn">Створити список</button>
-
-        <ul id="packingList"></ul>
-
-  <script>
-    const packingItems = {
-      plane: [
-        "Паспорт",
-        "Квиток",
-        "Зарядний пристрій",
-        "Навушники",
-        "Книгу або журнал"
-      ],
-      train: [
-        "Квиток",
-        "Легка закуска",
-        "Вода",
-        "Плед",
-        "Карточна гра"
-      ],
-      hiking: [
-        "Рюкзак",
-        "Спальний мішок",
-        "Намет",
-        "Пальник",
-        "Аптечка"
-      ],
-      car: [
-        "Водійські права",
-        "GPS або карта",
-        "Запасне колесо",
-        "Зарядний пристрій",
-        "Перекус"
-      ],
-    };
-
-    const tripTypeSelect = document.getElementById('tripType');
-    const generateBtn = document.getElementById('generateBtn');
-    const packingList = document.getElementById('packingList');
-
-    generateBtn.addEventListener('click', () => {
-      const selectedType = tripTypeSelect.value;
-      packingList.innerHTML = '';
-
-      if (!selectedType) {
-        alert('Будь ласка, оберіть тип подорожі');
-        return;
-      }
-
-      packingItems[selectedType].forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        packingList.appendChild(li);
-      });
-    });
-  </script>
-
+        <section id="packingSection" class="section packing-section">
+            <h2 class="section__title">Packing List</h2>
+            <select id="tripType" class="select trip-type-select">
+              <option value="flight" class="option">Flight</option>
+              <option value="roadtrip" class="option">Road Trip</option>
+              <option value="hiking" class="option">Hiking</option>
+              <option value="withKids" class="option">With Kids</option>
+            </select>
+            <button class="trip-button"> Create list</button>
+            <ul id="packingList" class="list packing-list"></ul>
+        
+            <button id="clearChecklist" class="button clear-button">Clear Checklist</button>
+          </section>
+        
+          <section id="travelTracker" class="section travel-tracker">
+            <h2 class="section__title">Countries I’ve Visited</h2>
+            <div id="countriesList" class="countries-list"></div>
+            <p class="stats-text">
+              You have visited <span id="visitedCount" class="stats-number">0</span> out of <span id="totalCountries" class="stats-number">0</span> countries.
+            </p>
+            <p class="stats-text">
+              That's <span id="visitedPercent" class="stats-number">0%</span> of the world!
+            </p>
+            <button id="clearCountries" class="button clear-button">Clear All</button>
+          </section>
+        
+          <script src="app.js"></script>
     </main>
 </body>
 </html>

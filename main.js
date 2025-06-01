@@ -1,4 +1,70 @@
-// Зразок списків речей для різних типів поїздок
+// Список країн (можна додати більше)
+const countries = [
+    "USA",
+    "Canada",
+    "France",
+    "Germany",
+    "Japan",
+    "Australia",
+    "Brazil",
+    "Ukraine",
+    "India",
+    "South Africa"
+  ];
+  
+  // Функція створення списку країн з чекбоксами
+  function renderCountries() {
+    const container = document.getElementById("countriesList");
+    container.innerHTML = "";
+  
+    countries.forEach((country, index) => {
+      const div = document.createElement("div");
+  
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = country-${index};
+  
+      // Збереження стану в localStorage
+      checkbox.checked = localStorage.getItem(`visited-${country}`) === "true";
+  
+      checkbox.addEventListener("change", () => {
+        localStorage.setItem(`visited-${country}`, checkbox.checked);
+        updateVisitedStats();
+      });
+  
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.textContent = country;
+  
+      div.appendChild(checkbox);
+      div.appendChild(label);
+  
+      container.appendChild(div);
+    });
+  
+    document.getElementById("totalCountries").textContent = countries.length;
+    updateVisitedStats();
+  }
+  
+  // Функція оновлення статистики
+  function updateVisitedStats() {
+    const visited = countries.filter(country => localStorage.getItem(`visited-${country}`) === "true").length;
+    const total = countries.length;
+    const percent = total === 0 ? 0 : Math.round((visited / total) * 100);
+  
+    document.getElementById("visitedCount").textContent = visited;
+    document.getElementById("visitedPercent").textContent = percent + "%";
+  }
+  
+  // Кнопка очищення вибору країн
+  document.getElementById("clearCountries").addEventListener("click", () => {
+    countries.forEach(country => localStorage.removeItem(`visited-${country}`));
+    renderCountries();
+  });
+  
+  // Ініціалізація списку країн при завантаженні
+  renderCountries();
+  
 const packingLists = {
     flight: [
       "Passport",
