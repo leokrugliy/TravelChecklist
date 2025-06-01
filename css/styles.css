@@ -95,7 +95,7 @@ body {
 }
 
 .header a[href="account.html"]:hover {
-  background-color: var(--accent-color);
+  background-color: var(--primary-medium);
   color: var(--text-light);
   text-decoration: none;
 }
@@ -195,51 +195,84 @@ main {
   font-size: 1.1rem;
 }
 
-/* Help page specific styles */
+/* Стилі для help.html */
 .help-title {
   color: var(--primary-dark);
+  font-size: 2.2rem;
   margin-bottom: 1.5rem;
-  font-size: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-light);
 }
 
 .help-text-first {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-size: 1.1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  line-height: 1.7;
 }
 
 .help-subtitle-contact,
 .help-subtitle-quick,
 .help-subtitle-FAQ {
-  color: var(--primary-medium);
-  margin: 2rem 0 1rem;
+  color: var(--primary-dark);
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1.2rem;
+  padding-left: 0.5rem;
+  border-left: 4px solid var(--primary-dark);
 }
 
-.help-problem-list,
-.help-contact-list,
-.help-quick {
+.help-problem {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  list-style-type: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
 }
 
-.help-problem-item,
-.help-contact-item,
-.help-quick-items {
-  padding: 0.5rem 0;
+.help-problem-list {
+  margin: 1rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.help-problem-item {
+  margin-bottom: 0.8rem;
   position: relative;
   padding-left: 1.5rem;
 }
 
-.help-problem-item::before,
-.help-contact-item::before,
-.help-quick-items::before {
-  content: '•';
-  color: var(--accent-color);
+.help-problem-item::before {
+  content: "•";
+  color: var(--primary-dark);
+  font-size: 1.5rem;
+  position: absolute;
+  left: 0;
+  top: -0.2rem;
+}
+
+.help-contact {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin: 1.5rem 0;
+}
+
+.help-contact-list {
+  margin: 1rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.help-contact-item {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.help-contact-item::before {
+  content: "→";
+  color: var(--primary-dark);
   position: absolute;
   left: 0;
 }
@@ -247,12 +280,32 @@ main {
 .help-contact-address {
   color: var(--primary-medium);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s;
 }
 
 .help-contact-address:hover {
   color: var(--primary-dark);
   text-decoration: underline;
+}
+
+.help-quick {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin: 1.5rem 0;
+}
+
+.help-quick-items {
+  margin-bottom: 0.8rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.help-quick-items::before {
+  content: "🛠";
+  position: absolute;
+  left: 0;
 }
 
 .help-FAQ1,
@@ -261,125 +314,132 @@ main {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
 }
-/* Додайте цей CSS в кінець вашого styles.css або створіть окремий файл account.css */
 
-/* Account Page Styles (без змін HTML) */
+.help-FAQ3 {
+  margin-top: 2rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .help-title {
+    font-size: 1.8rem;
+  }
+  
+  .help-subtitle-contact,
+  .help-subtitle-quick,
+  .help-subtitle-FAQ {
+    font-size: 1.3rem;
+  }
+  
+  .help-text-first,
+  .help-problem,
+  .help-contact,
+  .help-quick,
+  .help-FAQ1,
+  .help-FAQ2,
+  .help-FAQ3 {
+    padding: 1.2rem;
+  }
+}
 .account-main {
-    background-color: var(--primary-light);
-    padding: 2rem;
-    min-height: calc(100vh - 150px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .container {
-    width: 100%;
-    max-width: 500px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  .tabs {
-    display: flex;
-    background-color: var(--primary-dark);
-  }
-  
-  .tab {
-    flex: 1;
-    padding: 1rem;
-    text-align: center;
-    color: var(--text-light);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    border-bottom: 3px solid transparent;
-  }
-  
-  .tab.active {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-bottom-color: var(--accent-color);
-  }
-  
-  .tab:not(.active):hover {
-    background-color: var(--primary-medium);
-  }
-  
-  form {
-    padding: 2rem;
-    display: none;
-    animation: fadeIn 0.4s ease;
-  }
-  
-  form.active {
-    display: block;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    margin-bottom: 1.2rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    background-color: #f9f9f9;
-  }
-  
-  input:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2);
-    background-color: white;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: var(--primary-medium);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 0.5rem;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-  }
-  
-  .small {
-    font-size: 0.85rem;
-    color: var(--gray-medium);
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-  
-  .small a {
-    color: var(--primary-medium);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  .small a:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
-  }
-  
+  max-width: 400px;
+  margin: 3rem auto;
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--gray-light);
+}
+
+.tab {
+  cursor: pointer;
+  padding-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--primary-medium);
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.tab.active {
+  border-color: var(--primary-medium);
+  color: var(--primary-medium);
+}
+
+/* Форми */
+form {
+  display: none;
+  flex-direction: column;
+}
+
+form.active {
+  display: flex;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-medium);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-medium);
+  box-shadow: 0 0 5px var(--primary-medium);
+}
+
+button[type="submit"] {
+  background-color: var(--primary-medium);
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #e59400;
+}
+
+/* Дрібний текст */
+.small {
+  font-size: 0.85rem;
+  color: var(--gray-medium);
+  margin-top: 0.75rem;
+}
+
+.small a {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.small a:hover {
+  text-decoration: underline;
+}
   /* Responsive Design */
   @media (max-width: 600px) {
     .container {
