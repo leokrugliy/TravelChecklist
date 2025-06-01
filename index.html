@@ -23,16 +23,71 @@
     <main>
         <h1 class="trip-title">Packing list for a trip</h1>
         <label for="tripTravel">Select the type of travel: </label>
-        <select class="trip-select">
-            <option value=""disabled selected class="trip-option"> Select type: </option>
-            <option value="plane" class="trip-option"> Plane</option>
-            <option value="car" class="trip-option">Car</option>
-            <option value="train" class="trip-option">Train</option>
-            <option value="bus" class="trip-option">Bus</option>
-            <option value="hiking" class="trip-option">Hiking</option>
+        <select id="tripType">
+            <option value="" disabled selected>Select type: </option>
+            <option value="plane">Plane</option>
+            <option value="train">Train</option>
+            <option value="hiking">Hiking</option>
+            <option value="car">Car</option>
         </select>
-        <button class="trip-button"> Create list</button>
-        <ul class="trip-packinglist"></ul>
+
+        <button id="generateBtn">Створити список</button>
+
+        <ul id="packingList"></ul>
+
+  <script>
+    const packingItems = {
+      plane: [
+        "Паспорт",
+        "Квиток",
+        "Зарядний пристрій",
+        "Навушники",
+        "Книгу або журнал"
+      ],
+      train: [
+        "Квиток",
+        "Легка закуска",
+        "Вода",
+        "Плед",
+        "Карточна гра"
+      ],
+      hiking: [
+        "Рюкзак",
+        "Спальний мішок",
+        "Намет",
+        "Пальник",
+        "Аптечка"
+      ],
+      car: [
+        "Водійські права",
+        "GPS або карта",
+        "Запасне колесо",
+        "Зарядний пристрій",
+        "Перекус"
+      ],
+    };
+
+    const tripTypeSelect = document.getElementById('tripType');
+    const generateBtn = document.getElementById('generateBtn');
+    const packingList = document.getElementById('packingList');
+
+    generateBtn.addEventListener('click', () => {
+      const selectedType = tripTypeSelect.value;
+      packingList.innerHTML = '';
+
+      if (!selectedType) {
+        alert('Будь ласка, оберіть тип подорожі');
+        return;
+      }
+
+      packingItems[selectedType].forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        packingList.appendChild(li);
+      });
+    });
+  </script>
+
     </main>
 </body>
 </html>
