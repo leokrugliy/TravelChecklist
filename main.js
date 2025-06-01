@@ -1,151 +1,126 @@
-// Список країн (можна додати більше)
-const countries = [
-    "USA",
-    "Canada",
-    "France",
-    "Germany",
-    "Japan",
-    "Australia",
-    "Brazil",
-    "Ukraine",
-    "India",
-    "South Africa"
-  ];
-  
-  // Функція створення списку країн з чекбоксами
-  function renderCountries() {
-    const container = document.getElementById("countriesList");
-    container.innerHTML = "";
-  
-    countries.forEach((country, index) => {
-      const div = document.createElement("div");
-  
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = country-${index};
-  
-      // Збереження стану в localStorage
-      checkbox.checked = localStorage.getItem(`visited-${country}`) === "true";
-  
-      checkbox.addEventListener("change", () => {
-        localStorage.setItem(`visited-${country}`, checkbox.checked);
-        updateVisitedStats();
-      });
-  
-      const label = document.createElement("label");
-      label.htmlFor = checkbox.id;
-      label.textContent = country;
-  
-      div.appendChild(checkbox);
-      div.appendChild(label);
-  
-      container.appendChild(div);
-    });
-  
-    document.getElementById("totalCountries").textContent = countries.length;
-    updateVisitedStats();
-  }
-  
-  // Функція оновлення статистики
-  function updateVisitedStats() {
-    const visited = countries.filter(country => localStorage.getItem(`visited-${country}`) === "true").length;
-    const total = countries.length;
-    const percent = total === 0 ? 0 : Math.round((visited / total) * 100);
-  
-    document.getElementById("visitedCount").textContent = visited;
-    document.getElementById("visitedPercent").textContent = percent + "%";
-  }
-  
-  // Кнопка очищення вибору країн
-  document.getElementById("clearCountries").addEventListener("click", () => {
-    countries.forEach(country => localStorage.removeItem(`visited-${country}`));
-    renderCountries();
-  });
-  
-  // Ініціалізація списку країн при завантаженні
-  renderCountries();
-  
-const packingLists = {
-    flight: [
-      "Passport",
-      "Flight tickets",
-      "Travel insurance",
-      "Change of clothes",
-      "Toiletries",
-      "Phone charger",
-      "Headphones"
-    ],
-    roadtrip: [
-      "Driver's license",
-      "Car documents",
-      "Snacks and drinks",
-      "Map or GPS device",
-      "First aid kit",
-      "Spare tire",
-      "Sunglasses"
-    ],
-    hiking: [
-      "Backpack",
-      "Water bottle",
-      "Hiking boots",
-      "Map and compass",
-      "Weather-appropriate clothing",
-      "Snacks",
-      "First aid kit"
-    ],
-    withKids: [
-      "Diapers",
-      "Baby wipes",
-      "Toys",
-      "Snacks",
-      "Extra clothes",
-      "Stroller",
-      "Child ID"
-    ]
+// main.js
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tripTypeSelect = document.getElementById("trip-type");
+  const createListBtn = document.getElementById("create-list");
+  const packingList = document.getElementById("packing-list");
+
+  const customItemInput = document.getElementById("custom-item");
+  const addItemBtn = document.getElementById("add-item");
+
+  const countryInput = document.getElementById("country-input");
+  const addCountryBtn = document.getElementById("add-country");
+
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+
+  // Всього країн для прогресу
+  const TOTAL_COUNTRIES = 195;
+
+  // Зберігаємо список країн і речей у пам'яті
+  let visitedCountries = new Set();
+  let currentPackingItems = [];
+
+  // Речі за типом подорожі
+  const packingItemsByTrip = {
+    car: ["Driver's license", "Car keys", "Map", "Snacks", "Water bottle"],
+    plane: ["Passport", "Boarding pass", "Travel pillow", "Headphones", "Charger"],
+    hiking: ["Backpack", "Hiking boots", "Water bottle", "Map", "First aid kit"],
+    bike: ["Helmet", "Bike lock", "Gloves", "Water bottle", "Repair kit"],
   };
-  
-  // Елементи на сторінці
-  const tripTypeSelect = document.getElementById("tripType");
-  const listContainer = document.getElementById("packingList");
-  const clearBtn = document.getElementById("clearChecklist");
-  
-  // Функція для оновлення списку речей
-  function updatePackingList() {
-    const selectedTrip = tripTypeSelect.value;
-    const items = packingLists[selectedTrip] || [];
-  
-    // Очищаємо поточний список
-    listContainer.innerHTML = "";
-  
-    // Створюємо нові пункти зі чекбоксами
-    items.forEach(item => {
+
+  // Ініціалізуємо карту Leaflet
+  const map = L.map("map").setView([20, 0], 2);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 5,
+    attribution: "© OpenStreetMap",
+  }).addTo(map);
+
+  // Для маркерів країн зберігаємо посилання, щоб не дублювати
+  const countryMarkers = [];
+
+  // Функція оновлення прогресу
+  function updateProgress() {
+    const count = visitedCountries.size;
+    const percent = Math.min((count / TOTAL_COUNTRIES) * 100, 100);
+    progressBar.style.width = percent + "%";
+    progressText.textContent = `${count} / ${TOTAL_COUNTRIES} countries visited (${percent.toFixed(1)}%)`;
+  }
+
+  // Функція додає маркер на карту по назві країни
+  // Для простоти використовуємо API https://nominatim.openstreetmap.org/search?format=json&q=CountryName
+  async function addCountryMarker(countryName) {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(countryName)}&limit=1`
+      );
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon, display_name } = data[0];
+        const marker = L.marker([lat, lon]).addTo(map).bindPopup(display_name);
+        countryMarkers.push(marker);
+      } else {
+        alert("Country not found on map.");
+      }
+    } catch (error) {
+      alert("Error fetching location data.");
+    }
+  }
+
+  // Оновити список речей у DOM
+  function renderPackingList() {
+    packingList.innerHTML = "";
+    currentPackingItems.forEach((item) => {
       const li = document.createElement("li");
-  
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = item-${item};
-      
-      const label = document.createElement("label");
-      label.htmlFor = checkbox.id;
-      label.textContent = item;
-  
-      li.appendChild(checkbox);
-      li.appendChild(label);
-      listContainer.appendChild(li);
+      li.textContent = item;
+      packingList.appendChild(li);
     });
   }
-  
-  // Функція для очищення всіх чекбоксів
-  function clearChecklist() {
-    const checkboxes = listContainer.querySelectorAll("input[type='checkbox']");
-    checkboxes.forEach(cb => cb.checked = false);
-  }
-  
-  // Обробник зміни вибору типу поїздки
-  tripTypeSelect.addEventListener("change", updatePackingList);
-  
-  // Обробник кнопки очищення
-  clearBtn.addEventListener("click", clearChecklist);
-  
-  // Ініціалізуємо список при завантаженні сторінки
-  updatePackingList();
+
+  // Обробник кнопки "Create List"
+  createListBtn.addEventListener("click", () => {
+    const tripType = tripTypeSelect.value;
+    if (!tripType) {
+      alert("Please select a trip type first.");
+      return;
+    }
+    currentPackingItems = [...packingItemsByTrip[tripType]];
+    renderPackingList();
+  });
+
+  // Обробник додавання власного пункту
+  addItemBtn.addEventListener("click", () => {
+    const item = customItemInput.value.trim();
+    if (item === "") {
+      alert("Please enter an item.");
+      return;
+    }
+    if (!currentPackingItems.includes(item)) {
+      currentPackingItems.push(item);
+      renderPackingList();
+    }
+    customItemInput.value = "";
+  });
+
+  // Обробник додавання країни
+  addCountryBtn.addEventListener("click", async () => {
+    const country = countryInput.value.trim();
+    if (country === "") {
+      alert("Please enter a country name.");
+      return;
+    }
+    if (!visitedCountries.has(country.toLowerCase())) {
+      visitedCountries.add(country.toLowerCase());
+      updateProgress();
+      await addCountryMarker(country);
+    } else {
+      alert("Country already added.");
+    }
+    countryInput.value = "";
+  });
+
+  // Ініціалізуємо порожній прогрес і список
+  updateProgress();
+  renderPackingList();
+});

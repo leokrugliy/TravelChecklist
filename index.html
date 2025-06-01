@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css" integrity="sha512-q6WgHqiHlKyOqslT/lgBgodhd03Wp4BEqKeW6nNtlOY4quzyG3VoQKFrieaCeSnuVseNKRGpGeDU3qPmabCANg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Check List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/styles.css" />
 </head>
-<body>
-    <header class="header">
-        <h1 class="header-title">Travel Check List</h1>
-        <nav class="header-nav">
-            <ul class="header-list">
-                <li class="header-item"><a href="index.html" class="header-a">Travel</a></li>
-                <li class="header-item"><a href="about.html" class="header-a">About us</a></li>
-                <li class="header-item"><a href="help.html" class="header-a">Help</a></li>
-            </ul>
-        </nav>
-        <a href="account.html">Account</a>
-    </header>
-    <main>
-        <h1 class="trip-title">Packing list for a trip</h1>
-        <label for="tripTravel">Select the type of travel: </label>
-        <section id="packingSection" class="section packing-section">
-            <h2 class="section__title">Packing List</h2>
-            <select id="tripType" class="select trip-type-select">
-              <option value="flight" class="option">Flight</option>
-              <option value="roadtrip" class="option">Road Trip</option>
-              <option value="hiking" class="option">Hiking</option>
-              <option value="withKids" class="option">With Kids</option>
-            </select>
-            <button class="trip-button"> Create list</button>
-            <ul id="packingList" class="list packing-list"></ul>
-        
-            <button id="clearChecklist" class="button clear-button">Clear Checklist</button>
-          </section>
-        
-          <section id="travelTracker" class="section travel-tracker">
-            <h2 class="section__title">Countries I’ve Visited</h2>
-            <div id="countriesList" class="countries-list"></div>
-            <p class="stats-text">
-              You have visited <span id="visitedCount" class="stats-number">0</span> out of <span id="totalCountries" class="stats-number">0</span> countries.
-            </p>
-            <p class="stats-text">
-              That's <span id="visitedPercent" class="stats-number">0%</span> of the world!
-            </p>
-            <button id="clearCountries" class="button clear-button">Clear All</button>
-          </section>
-        
-          <script src="app.js"></script>
-    </main>
+<body class="page light-theme">
+  <header class="header">
+    <h1 class="header-title">Travel Check List</h1>
+    <nav class="header-nav">
+      <ul class="header-list">
+        <li class="header-item"><a href="index.html" class="header-a">Travel</a></li>
+        <li class="header-item"><a href="about.html" class="header-a">About us</a></li>
+        <li class="header-item"><a href="help.html" class="header-a">Help</a></li>
+      </ul>
+    </nav>
+    <a href="account.html" class="header-a">Account</a>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <label for="trip-type" class="label">Select trip type:</label>
+      <select id="trip-type" class="select">
+        <option value="" disabled selected>Select how you travel</option>
+        <option value="car">Car</option>
+        <option value="plane">Plane</option>
+        <option value="hiking">Hiking</option>
+        <option value="bike">Bike</option>
+      </select>
+      <button id="create-list" class="btn">Create List</button>
+    </section>
+
+    <section class="section">
+      <label for="custom-item" class="label">Add custom item:</label>
+      <input type="text" id="custom-item" class="input" placeholder="Add your own item" />
+      <button id="add-item" class="btn">Add Item</button>
+    </section>
+
+    <section class="section">
+      <h2 class="subtitle">Packing List:</h2>
+      <ul id="packing-list" class="list"></ul>
+    </section>
+
+    <section class="section">
+      <label for="country-input" class="label">Countries visited:</label>
+      <input type="text" id="country-input" class="input" placeholder="Enter country name" />
+      <button id="add-country" class="btn">Add Country</button>
+
+      <div class="progress-bar-container" aria-label="Visited countries progress">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <div id="progress-text" class="progress-text"></div>
+    </section>
+
+    <section class="section" aria-label="Map of visited countries">
+        <div id="map" style="height: 400px;"></div>
+    </section>
+  </main>
+
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

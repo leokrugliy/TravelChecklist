@@ -99,6 +99,103 @@ body {
   color: var(--text-light);
   text-decoration: none;
 }
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: var(--text-light);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.title {
+  text-align: center;
+  color: var(--primary-dark);
+}
+
+.subtitle {
+  color: var(--primary-medium);
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.select,
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--gray-medium);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.btn {
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--primary-medium);
+}
+
+.list {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: var(--gray-light);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: var(--success-color);
+  width: 0%;
+  transition: width 0.5s ease-in-out;
+}
+
+.progress-text {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.quote {
+  background-color: var(--gray-light);
+  padding: 15px;
+  border-left: 4px solid var(--accent-color);
+}
+
+.quote-text {
+  font-style: italic;
+  color: var(--primary-dark);
+}
+
+#map {
+  height: 400px; /* або інша висота, яка тобі підходить */
+  width: 100%;   /* щоб карта займала всю ширину контейнера */
+  border: 1px solid var(--primary-dark); /* приклад рамки в тон сайту */
+  border-radius: 8px; /* трохи округлень для естетики */
+  margin-top: 20px; /* відступ зверху, щоб карта не прилипала */
+}
 
 /* Main content styles */
 main {
