@@ -13,8 +13,8 @@ function showLoggedInMessage(email) {
   // Створюємо повідомлення і кнопку Вийти
   const container = document.createElement("div");
   container.innerHTML = `
-    <p>Ви вже увійшли в акаунт: <strong>${email}</strong></p>
-    <button id="logout-btn" class="btn">Вийти</button>
+    <p>You are already logged in: <strong>${email}</strong></p>
+    <button id="logout-btn" class="btn">Log out </button>
   `;
 
   // Вставляємо контейнер після header, наприклад, перед main
@@ -64,7 +64,7 @@ loginForm.addEventListener("submit", (e) => {
   const password = document.getElementById("login-password").value.trim();
 
   if (!email || !password) {
-    alert("Введіть email і пароль");
+    alert("Enter email and password");
     return;
   }
 
@@ -72,7 +72,7 @@ loginForm.addEventListener("submit", (e) => {
   const user = users.find(u => u.email === email && u.password === password);
 
   if (!user) {
-    alert("Неправильний email або пароль");
+    alert("Incorrect email or password");
     return;
   }
 
@@ -90,25 +90,25 @@ signupForm.addEventListener("submit", (e) => {
   const confirmPassword = document.getElementById("signup-confirm-password").value.trim();
 
   if (!username || !email || !password || !confirmPassword) {
-    alert("Заповніть всі поля");
+    alert("Fill in all fields.");
     return;
   }
 
   if (password !== confirmPassword) {
-    alert("Паролі не співпадають");
+    alert("Passwords do not match.");
     return;
   }
 
   const users = JSON.parse(localStorage.getItem("users")) || [];
   if (users.find(u => u.email === email)) {
-    alert("Користувач з таким email вже існує");
+    alert("A user with this email already exists.");
     return;
   }
 
   users.push({ username, email, password });
   localStorage.setItem("users", JSON.stringify(users));
 
-  alert("Реєстрація успішна! Тепер увійдіть в акаунт.");
+  alert("Registration successful! Now log in to your account.");
   tabLogin.click();
 });
 
